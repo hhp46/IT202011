@@ -18,6 +18,7 @@ function getDB(){
             //using the PDO connector create a new connect to the DB
             //if no error occurs we're connected
             $db = new PDO($connection_string, $dbuser, $dbpass);
+            }
     catch(Exception $e){
             var_export($e);
             $db = null;

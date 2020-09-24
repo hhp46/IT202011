@@ -52,7 +52,7 @@ if(isset($_POST["register"])){
 			echo "<br>Welcome! You successfully registered, please login.";
 		}
 		else{
-			echo "uh oh something went wrong: " . var_export($e, true);
+			echo " uh oh something went wrong: " . var_export($e, true);
 		}
 	}
   }
