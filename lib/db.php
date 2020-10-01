@@ -26,4 +26,5 @@ function getDB(){
     }
     return $db;
 }
+
 ?>
