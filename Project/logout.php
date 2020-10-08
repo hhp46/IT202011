@@ -1,3 +1,10 @@
+<html>
+<title> Logged Out! </title>
+<head>
+
+
+</head>
+<body>
 
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
@@ -10,3 +17,12 @@ session_destroy();
 echo "You're logged out (proof by dumping the session)<br>";
 echo "<pre>" . var_export($_SESSION, true) . "</pre>";
 ?>
+
+
+<style>
+body {
+  background-color: #F0F8FF;
+}
+</style>
+</body>
+</html>

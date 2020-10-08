@@ -1,3 +1,41 @@
+<html>
+<title> Profile </title>
+<head>
+
+<h1>Profile Page</h1>
+<style>
+body {
+  background-color: #F0F8FF;
+}
+p3{
+font-weight: bold;
+}
+h1 {
+text-align: center;
+color: #860d0d;
+font-weight: bold;
+}
+input[type=submit] {
+ background-color: #008CBA;
+  color: white;
+  padding: 7px 15px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #ADD8E6;
+  color: black;
+}
+
+</style>
+</head>
+
+<body>
+
+
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
 //Note: we have this up here, so our update happens before our get/fetch
@@ -107,7 +145,9 @@ if (isset($_POST["saved"])) {
 
 
 ?>
-
+<p3>Profile:</p3>
+<br>
+<br>
 <form method="POST">
     <label for="email">Email</label>
     <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>
@@ -120,3 +160,9 @@ if (isset($_POST["saved"])) {
     <input type="password" name="confirm"/>
     <input type="submit" name="saved" value="Save Profile"/>
 </form>
+
+
+
+
+</body>
+</html>

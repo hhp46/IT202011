@@ -1,4 +1,17 @@
+<html>
+<title> Login </title>
+<head>
+
+
+</head>
+<body>
+
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
+<br>
+<p3>Login:</p3>
+<br>
+<br>
+
 <form method="POST">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required/>
@@ -72,3 +85,31 @@ SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id wher
     }
 }
 ?>
+
+
+<style>
+body {
+  background-color: #F0F8FF;
+}
+p3{
+font-weight: bold;
+}
+
+input[type=submit] {
+ background-color: #008CBA;
+  color: white;
+  padding: 7px 15px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #ADD8E6;
+  color: black;
+}
+
+</style>
+</body>
+</html>
