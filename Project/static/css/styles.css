@@ -1,0 +1,112 @@
+body {
+  background-color: #F0F8FF;
+  /*font-size: 1.5em;*/
+}
+p3{
+font-weight: bold;
+text-decoration: underline;
+background-color:#C0C0C0;
+}
+
+input, select {
+    width: 100%;
+    padding: 5px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+input[type=submit] {
+ background-color: #008CBA;
+  color: white;
+  margin: 20px 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+   width: 100%;
+   padding: 10px 17px;
+    font-weight: bold;
+}
+
+input[type=submit]:hover {
+  background-color: #ADD8E6;
+  color: black;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #2F4F4F;
+}
+
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background-color: #111;
+}
+
+.nav a.active {
+  background-color: #778899;
+  color: white;
+  
+}
+
+
+
+h1 {
+text-align: center;
+color: #860d0d;
+font-weight: bold;
+box-shadow: 5px 10px lightblue;
+border: 5px solid black;
+}
+
+
+
+p2 {
+font-weight: bold;
+  border: 2px solid;
+  padding: 5px;
+  box-shadow: 5px 10px lightblue;
+}
+
+input:nth-of-type(1) {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+input:nth-of-type(2) {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+input:nth-of-type(3) {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+input:nth-of-type(4) {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+input:nth-of-type(5) {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}

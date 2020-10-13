@@ -1,41 +1,4 @@
-<html>
-<title> Profile </title>
-<head>
-
-<h1>Profile Page</h1>
-<style>
-body {
-  background-color: #F0F8FF;
-}
-p3{
-font-weight: bold;
-}
-h1 {
-text-align: center;
-color: #860d0d;
-font-weight: bold;
-}
-input[type=submit] {
- background-color: #008CBA;
-  color: white;
-  padding: 7px 15px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #ADD8E6;
-  color: black;
-}
-
-</style>
-</head>
-
-<body>
-
-
+<title> Profile Page </title>
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
 //Note: we have this up here, so our update happens before our get/fetch
@@ -43,6 +6,7 @@ input[type=submit]:hover {
 //As an exercise swap these two and see how things change
 if (!is_logged_in()) {
     //this will redirect to login and kill the rest of this script (prevent it from executing)
+    flash("You must be logged in to access this page");
     die(header("Location: login.php"));
 }
 
@@ -68,7 +32,7 @@ if (isset($_POST["saved"])) {
             }
         }
         if ($inUse > 0) {
-            echo "Email is already in use";
+            flash("Email already in use");
             //for now we can just stop the rest of the update
             $isValid = false;
         }
@@ -92,7 +56,7 @@ if (isset($_POST["saved"])) {
             }
         }
         if ($inUse > 0) {
-            echo "Username is already in use";
+            flash("Username already in use");
             //for now we can just stop the rest of the update
             $isValid = false;
         }
@@ -104,10 +68,10 @@ if (isset($_POST["saved"])) {
         $stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
         $r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
         if ($r) {
-            echo "Updated profile";
+            flash("Updated profile");
         }
         else {
-            echo "Error updating profile";
+            flash("Error updating profile");
         }
         //password is optional, so check if it's even set
         //if so, then check if it's a valid reset request
@@ -119,10 +83,10 @@ if (isset($_POST["saved"])) {
                 $stmt = $db->prepare("UPDATE Users set password = :password where id = :id");
                 $r = $stmt->execute([":id" => get_user_id(), ":password" => $hash]);
                 if ($r) {
-                    echo "Reset password";
+                    flash("Reset Password");
                 }
                 else {
-                    echo "Error resetting password";
+                    flash("Error resetting password");
                 }
             }
         }
@@ -145,24 +109,21 @@ if (isset($_POST["saved"])) {
 
 
 ?>
+<br>
+
 <p3>Profile:</p3>
 <br>
 <br>
-<form method="POST">
-    <label for="email">Email</label>
-    <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>
-    <label for="username">Username</label>
-    <input type="text" maxlength="60" name="username" value="<?php safer_echo(get_username()); ?>"/>
-    <!-- DO NOT PRELOAD PASSWORD-->
-    <label for="pw">Password</label>
-    <input type="password" name="password"/>
-    <label for="cpw">Confirm Password</label>
-    <input type="password" name="confirm"/>
-    <input type="submit" name="saved" value="Save Profile"/>
-</form>
-
-
-
-
-</body>
-</html>
+    <form method="POST">
+        <label for="email">Email</label>
+        <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>
+        <label for="username">Username</label>
+        <input type="text" maxlength="60" name="username" value="<?php safer_echo(get_username()); ?>"/>
+        <!-- DO NOT PRELOAD PASSWORD-->
+        <label for="pw">Password</label>
+        <input type="password" name="password"/>
+        <label for="cpw">Confirm Password</label>
+        <input type="password" name="confirm"/>
+        <input type="submit" name="saved" value="Save Profile"/>
+    </form>
+<?php require(__DIR__ . "/partials/flash.php");

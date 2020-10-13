@@ -1,24 +1,20 @@
-<html>
-<title> Login </title>
-<head>
-
-
-</head>
-<body>
 
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
+
+<title> Login Page </title>
 <br>
 <p3>Login:</p3>
 <br>
 <br>
 
-<form method="POST">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required/>
-    <label for="p1">Password:</label>
-    <input type="password" id="p1" name="password" required/>
-    <input type="submit" name="login" value="Login"/>
-</form>
+
+    <form method="POST">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required/>
+        <label for="p1">Password:</label>
+        <input type="password" id="p1" name="password" required/>
+        <input type="submit" name="login" value="Login"/>
+    </form>
 
 <?php
 if (isset($_POST["login"])) {
@@ -33,10 +29,12 @@ if (isset($_POST["login"])) {
     $isValid = true;
     if (!isset($email) || !isset($password)) {
         $isValid = false;
+        flash("Email or password missing");
     }
     if (!strpos($email, "@")) {
         $isValid = false;
-        echo "<br>Invalid email<br>";
+        //echo "<br>Invalid email<br>";
+        flash("Invalid email");
     }
     if ($isValid) {
         $db = getDB();
@@ -45,10 +43,11 @@ if (isset($_POST["login"])) {
 
             $params = array(":email" => $email);
             $r = $stmt->execute($params);
-            echo "db returned: " . var_export($r, true);
+            //echo "db returned: " . var_export($r, true);
             $e = $stmt->errorInfo();
             if ($e[0] != "00000") {
-                echo "uh oh something went wrong: " . var_export($e, true);
+                //echo "uh oh something went wrong: " . var_export($e, true);
+                flash("Something went wrong, please try again");
             }
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($result && isset($result["password"])) {
@@ -69,47 +68,21 @@ SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id wher
                         $_SESSION["user"]["roles"] = [];
                     }
                     //on successful login let's serve-side redirect the user to the home page.
-                    header("Location: home.php");
+                   flash ("Log in successful!");
+                    die(header("Location: home.php"));
                 }
                 else {
-                    echo "<br>Invalid password, get out!<br>";
+                    flash("Invalid password");
                 }
             }
             else {
-                echo "<br>Invalid user<br>";
+                flash("Invalid user");
             }
         }
     }
     else {
-        echo "There was a validation issue";
+        flash("There was a validation issue");
     }
 }
 ?>
-
-
-<style>
-body {
-  background-color: #F0F8FF;
-}
-p3{
-font-weight: bold;
-}
-
-input[type=submit] {
- background-color: #008CBA;
-  color: white;
-  padding: 7px 15px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #ADD8E6;
-  color: black;
-}
-
-</style>
-</body>
-</html>
+<?php require(__DIR__ . "/partials/flash.php");
