@@ -10,9 +10,9 @@
 
     <form method="POST">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required/>
+        <input type="email" id="email" name="email" />
         <label for="username">Username:</label>
-        <input type="username" id="username" name="username" required/>
+        <input type="username" id="username" name="username" />
         <label for="p1">Password:</label>
         <input type="password" id="p1" name="password" required/>
         <input type="submit" name="login" value="Login"/>
@@ -32,7 +32,7 @@ if (isset($_POST["login"])) {
         $password = $_POST["password"];
     }
     $isValid = true;
-    if (!isset($email) || !isset($username) || !isset($password)) {
+    if (!isset($email) or !isset($username) || !isset($password)) {
         $isValid = false;
         flash("Email username or password missing");
     }
@@ -44,23 +44,14 @@ if (isset($_POST["login"])) {
     if ($isValid) {
         $db = getDB();
         if (isset($db)) {
-            $stmt = $db->prepare("SELECT id, email, username, password from Users WHERE email = :email LIMIT 1");
+            $stmt = $db->prepare("SELECT id, email, username, password from Users WHERE email = :email or username = :username");
 
-            $params = array(":email" => $email);
+            $params = array(":email" => $email, ":username" => $username);
             $r = $stmt->execute($params);
             //echo "db returned: " . var_export($r, true);
             $e = $stmt->errorInfo();
            
-            
-            if ($e[0] != "00000") {
-                //echo "uh oh something went wrong: " . var_export($e, true);
-                flash("Something went wrong, please try again");
-            }
-            
-             $params = array("username" => $username);
-            $r = $stmt->execute($params);
-            //echo "db returned: " . var_export($r, true);
-            $e = $stmt->errorInfo();
+        
            
             
             if ($e[0] != "00000") {
