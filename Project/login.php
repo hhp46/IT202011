@@ -3,7 +3,7 @@
 
 <title> Login Page </title>
 <br>
-<p3>Login:</p3>
+<p3>Login with either Email or Username:</p3>
 <br>
 <br>
 
@@ -11,25 +11,30 @@
     <form method="POST">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required/>
+        <label for="username">Username:</label>
+        <input type="username" id="username" name="username" required/>
         <label for="p1">Password:</label>
         <input type="password" id="p1" name="password" required/>
         <input type="submit" name="login" value="Login"/>
     </form>
-
 <?php
 if (isset($_POST["login"])) {
     $email = null;
     $password = null;
+    $username = null;
     if (isset($_POST["email"])) {
         $email = $_POST["email"];
+    }
+    if (isset($_POST["username"])) {
+        $username = $_POST["username"];
     }
     if (isset($_POST["password"])) {
         $password = $_POST["password"];
     }
     $isValid = true;
-    if (!isset($email) || !isset($password)) {
+    if (!isset($email) || !isset($username) || !isset($password)) {
         $isValid = false;
-        flash("Email or password missing");
+        flash("Email username or password missing");
     }
     if (!strpos($email, "@")) {
         $isValid = false;
@@ -45,6 +50,19 @@ if (isset($_POST["login"])) {
             $r = $stmt->execute($params);
             //echo "db returned: " . var_export($r, true);
             $e = $stmt->errorInfo();
+           
+            
+            if ($e[0] != "00000") {
+                //echo "uh oh something went wrong: " . var_export($e, true);
+                flash("Something went wrong, please try again");
+            }
+            
+             $params = array("username" => $username);
+            $r = $stmt->execute($params);
+            //echo "db returned: " . var_export($r, true);
+            $e = $stmt->errorInfo();
+           
+            
             if ($e[0] != "00000") {
                 //echo "uh oh something went wrong: " . var_export($e, true);
                 flash("Something went wrong, please try again");
@@ -68,7 +86,7 @@ SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id wher
                         $_SESSION["user"]["roles"] = [];
                     }
                     //on successful login let's serve-side redirect the user to the home page.
-                   flash ("Log in successful!");
+                    flash("Log in successful");
                     die(header("Location: home.php"));
                 }
                 else {
