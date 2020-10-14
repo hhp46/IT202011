@@ -10,18 +10,16 @@
 
     <form method="POST">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" />
+        <input type="email" id="email" name="email"  />
         <label for="username">Username:</label>
-        <input type="username" id="username" name="username" />
+        <input type="username" id="username" name="username"  />
         <label for="p1">Password:</label>
         <input type="password" id="p1" name="password" required/>
         <input type="submit" name="login" value="Login"/>
     </form>
 <?php
 if (isset($_POST["login"])) {
-    $email = null;
-    $password = null;
-    $username = null;
+   
     if (isset($_POST["email"])) {
         $email = $_POST["email"];
     }
