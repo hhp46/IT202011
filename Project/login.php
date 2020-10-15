@@ -14,7 +14,7 @@
         <label for="username">Username:</label>
         <input type="username" id="username" name="username"  />
         <label for="p1">Password:</label>
-        <input type="password" id="p1" name="password" required/>
+        <input type="password" id="p1" name="password" />
         <input type="submit" name="login" value="Login"/>
     </form>
 <?php
@@ -23,22 +23,27 @@ if (isset($_POST["login"])) {
     if (isset($_POST["email"])) {
         $email = $_POST["email"];
     }
+    
     if (isset($_POST["username"])) {
         $username = $_POST["username"];
     }
     if (isset($_POST["password"])) {
         $password = $_POST["password"];
     }
-    $isValid = true;
+   $isValid = true;
     if (!isset($email) or !isset($username) || !isset($password)) {
-        $isValid = false;
-        flash("Email username or password missing");
+        $isValid = true;
+        flash("Email, username or password missing");
     }
-    if (!strpos($email, "@")) {
+    
+    /*if  (!strpos($email, "@")) {
         $isValid = false;
         //echo "<br>Invalid email<br>";
         flash("Invalid email");
     }
+    
+    */
+    
     if ($isValid) {
         $db = getDB();
         if (isset($db)) {
