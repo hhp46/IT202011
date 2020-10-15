@@ -62,6 +62,7 @@ if (isset($_POST["register"])) {
         flash( "There was a validation issue");
     }
 }
+
 //safety measure to prevent php warnings
 if (!isset($email)) {
     $email = "";
