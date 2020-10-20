@@ -69,5 +69,48 @@ function getMessages() {
     return array();
 }
 
+  function verifyCurrentPassword($current, $password_hash)
+    {
+        return password_verify($current, $password_hash);
+    }
+ 
+    /**
+     * Change current password to new password
+     *
+     * @param [type] $id
+     * @param [type] $new_password
+     * @return void
+     */
+     function changeCurrentPassword($id, $password)
+    {
+        $id = mysqli_real_escape_string($this->db, $id);
+        $password = mysqli_real_escape_string($this->db, $password);
+        $password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 11]);
+ 
+        $query = "UPDATE `users` SET `password`='$password' WHERE `id` = '$id'";
+        if (!$result = mysqli_query($this->db, $query)) {
+            exit(mysqli_error($this->db));
+        }
+ 
+        return true;
+    }
+    
+     public function UserDetails($id)
+    {
+        $id = mysqli_real_escape_string($this->db, $id);
+        $query = "SELECT `first_name`, `last_name`, `email`, `password`  FROM `users` WHERE `id` = '$id'";
+        if (!$result = mysqli_query($this->db, $query)) {
+            exit(mysqli_error($this->db));
+        }
+        $data = [];
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data = $row;
+            }
+        }
+ 
+        return $data;
+    }
+
 //end flash
 ?>

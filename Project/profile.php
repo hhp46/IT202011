@@ -107,6 +107,28 @@ if (isset($_POST["saved"])) {
     }
 }
 
+if (!empty($_POST['saved'])) {
+    if ($_POST['current'] == '') {
+        $error_message = 'Current Password field is required!';
+    } elseif ($_POST['password'] == '') {
+        $error_message = 'New Password field is required!';
+    } elseif ($_POST['confirm'] == '') {
+        $error_message = 'Please confirm your new password!';
+    } elseif ($_POST['password'] != $_POST['confirm']) {
+        $error_message = 'Password confirmation does not match with new password!';
+    } elseif ($_POST['current'] == $_POST['password']) {
+        $error_message = 'New Password and current password can not be the same!';
+    } elseif (!$app->verifyCurrentPassword($_POST['current'], $user['password'])) {
+        $error_message = 'Invalid current password, please enter valid password!';
+    } elseif ($app->verifyCurrentPassword($_POST['current'], $user['password'])) {
+        // update the current password and ask user to login again
+        if ($app->changeCurrentPassword($_SESSION['user_id'], $_POST['new_password'])) {
+            $success_message = 'Your password has been successfully change, please logout and login again with new password.';
+        } else {
+            $error_message = 'SERVER ERROR!!!';
+        }
+    }
+}
 
 ?>
 <br>
@@ -120,6 +142,8 @@ if (isset($_POST["saved"])) {
         <label for="username">Username</label>
         <input type="text" maxlength="60" name="username" value="<?php safer_echo(get_username()); ?>"/>
         <!-- DO NOT PRELOAD PASSWORD-->
+          <label for="currentpass">Current Password</label>
+        <input type="password" name="current"/>
         <label for="pw">Password</label>
         <input type="password" name="password"/>
         <label for="cpw">Confirm Password</label>
