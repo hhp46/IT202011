@@ -55,7 +55,7 @@ if (isset($_POST["saved"])) {
             }
         }
         if ($inUse > 0) {
-            flash("Username already in use");
+            flash("Username already exists");
             //for now we can just stop the rest of the update
             $isValid = false;
         }
@@ -63,17 +63,17 @@ if (isset($_POST["saved"])) {
             $newUsername = $username;
         }
     }
-    if ($isValid) {
-        $userID = null;
-        $currentPass = null;
-        $stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
-        $r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
-        if ($r) {
-            flash("Updated Profile");
-        }
-        else {
-            flash("Error updating profile");
-        }
+ 	  if ($isValid) {
+		$userID = null;
+		$currentPass = null;
+		$stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
+		$r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
+		if ($r) {
+		flash("Updated Email/user");
+			 }
+		else {
+		flash("Error updating profile");
+		    }
         //password is optional, so check if it's even set
         //if so, then check if it's a valid reset request
         if (!empty($_POST["newPassword"]) && !empty($_POST["confirm"]) && !empty($_POST["password"])) {
@@ -89,25 +89,28 @@ if (isset($_POST["saved"])) {
                 
                 $DBPassHash = $result["password"];
             if (password_verify($currentPass, $DBPassHash)) {
-            
+            flash("Old Password Correct!");
                 if ($_POST["newPassword"] == $_POST["confirm"]) {
+            flash("Password is Updated!");
                     $newPassword = $_POST["newPassword"];
-                    $newPassHash = password_hash($newPassword, PASSWORD_BCRYPT);
+                    $newPassHash = password_hash($newPassword, PASSWORD_BCRYPT);                        
                     //this one we'll do separate
                     $stmt = $db->prepare("UPDATE Users set password = :password where id = :id");
                     $r = $stmt->execute([":id" => get_user_id(), ":password" => $newPassHash]);
-                
-                    if ($r) {
-                        flash("Reset Password");
-                         flash("Updated Profile"); }
-                    else {
-                        flash("Error resetting password"); }
+                 
+             
+                  
             } 
+            else {
+             flash("Passwords dont match!"); }
             }   
             else {
-             flash("Error: Old password incorrect");}
+             flash("Error: Old password incorrect!");}
         }
+       
+        
         }
+        
  
 //fetch/select fresh data in case anything changed
         $stmt = $db->prepare("SELECT email, username from Users WHERE id = :id LIMIT 1");
@@ -121,14 +124,16 @@ if (isset($_POST["saved"])) {
             $_SESSION["user"]["username"] = $username;
         }
     }
-    else {
-        //else for $isValid, though don't need to put anything here since the specific failure will output the message
     }
-}
+   
+
 
 
 ?>
+<br>
 
+<br>
+   
     <form method="POST">
         <label for="email">Email</label>
         <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>

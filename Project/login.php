@@ -84,7 +84,7 @@ SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id wher
                     die(header("Location: home.php"));
                 }
                 else {
-                    flash("Invalid password");
+                    flash("Wrong password! Retype email/user and Password!");
                 }
             }
             else {
