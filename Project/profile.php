@@ -69,7 +69,7 @@ if (isset($_POST["saved"])) {
         $stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
         $r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
         if ($r) {
-            flash("Updated profile");
+            flash("Updated Profile");
         }
         else {
             flash("Error updating profile");
@@ -89,9 +89,6 @@ if (isset($_POST["saved"])) {
                 
                 $DBPassHash = $result["password"];
             if (password_verify($currentPass, $DBPassHash)) {
-             flash("Correct Old Password");  }
-             else {
-             flash("Error: Old password incorrect");}
             
                 if ($_POST["newPassword"] == $_POST["confirm"]) {
                     $newPassword = $_POST["newPassword"];
@@ -101,11 +98,15 @@ if (isset($_POST["saved"])) {
                     $r = $stmt->execute([":id" => get_user_id(), ":password" => $newPassHash]);
                 
                     if ($r) {
-                        flash("Reset Password"); }
+                        flash("Reset Password");
+                         flash("Updated Profile"); }
                     else {
                         flash("Error resetting password"); }
-            }
+            } 
             }   
+            else {
+             flash("Error: Old password incorrect");}
+        }
         }
  
 //fetch/select fresh data in case anything changed
