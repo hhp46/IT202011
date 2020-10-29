@@ -29,6 +29,10 @@ var keys = {
     DOWN: false
 };
 
+
+
+
+
 // Keep track of the score
 var leftScore = 0;
 var rightScore = 0;
@@ -215,6 +219,9 @@ function drawScores() {
     context.fillText('Score: ' + leftScore, 5, 24);
     context.textAlign = 'right';
     context.fillText('Score: ' + rightScore, canvas.width - 5, 24);
+
+
+
 }
 function erase() {
     context.fillStyle = '#FFFFFF';
@@ -231,17 +238,75 @@ function gameLoop() {
     checkScore();
     drawScores();
     //draw stuff
+
+
+     	 if (rightScore >= 2 && leftScore >= 2) {
+         drawables[2] = makeRect(ball.x, ball.y, ballSize + 7, ballSize + 7, ballSpeed, '#000000');
+	
+    }
+
+	if (leftScore >=4) {      
+	
+	
+	drawables[0] = makeRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight *1.3, 5, '#BC0000');
+ 
+
+    }
+
+	if (leftScore >=3) {      
+	
+	
+	drawables[0] = makeRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight *1.3, 5, '#7FFFD4');}
+
+	if (rightScore >= 4 ) {      
+	
+	 
+	drawables[1] = makeRect(rightPaddle.x, rightPaddle.y, paddleWidth  , paddleHeight *1.3, 5, '#0000BC');
+    }
+
+	if (rightScore >= 3 ) {      
+	
+	 
+	drawables[1] = makeRect(rightPaddle.x, rightPaddle.y, paddleWidth  , paddleHeight *1.3, 5, '#00CED1');    }
+
+
+	
+
+
     for (let i = 0; i < drawables.length; i++) {
         drawables[i].draw();
     }
 }
+
+function myFunction() {
+  var x = document.getElementById("myAudio").autoplay;
+  document.getElementById("demo").innerHTML = x;
+}
+
 </script>
 </head>
 <body onload="init();">
 	<a href="http://bencentra.com/2017-07-11-basic-html5-canvas-games.html">Collection of Canvas based games by Ben Centra</a>
+<br>
+
+<audio id="myAudio" controls autoplay>
+  <source src="bensound-evolution.ogg" type="audio/ogg">  
+        <source src="bensound-evolution.mp3" type="audio/mpeg">  
+  Your browser does not support the audio element.
+</audio>
+
+<p id="demo"></p>
+
+
+ 
 	<main>
-		<canvas id="board" width="600px" height="600px" style="border: 1px solid black;">
+
+
+
 		
+<canvas id="board" width="600px" height="600px" style="border: 1px solid black;">
+
+
 		</canvas>
 	</main>
 </body>
