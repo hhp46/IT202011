@@ -245,29 +245,34 @@ function gameLoop() {
 	
     }
 
-	if (leftScore >=4) {      
-	
-	
-	drawables[0] = makeRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight *1.3, 5, '#BC0000');
- 
-
-    }
 
 	if (leftScore >=3) {      
 	
 	
-	drawables[0] = makeRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight *1.3, 5, '#7FFFD4');}
+	drawables[0] = makeRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight, 5, '#5F9EA0');
+}
 
-	if (rightScore >= 4 ) {      
+
+	if (leftScore >= 6) {      
 	
-	 
-	drawables[1] = makeRect(rightPaddle.x, rightPaddle.y, paddleWidth  , paddleHeight *1.3, 5, '#0000BC');
-    }
+	
+	drawables[0] = makeRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight*1.3, 5, '#7FFFD4');
+ 
 
+    }
 	if (rightScore >= 3 ) {      
 	
 	 
-	drawables[1] = makeRect(rightPaddle.x, rightPaddle.y, paddleWidth  , paddleHeight *1.3, 5, '#00CED1');    }
+	drawables[1] = makeRect(rightPaddle.x, rightPaddle.y, paddleWidth  , paddleHeight, 5, '#00CED1');   
+ }
+
+
+	if (rightScore >= 6 ) {      
+	
+	 
+	drawables[1] = makeRect(rightPaddle.x, rightPaddle.y, paddleWidth  , paddleHeight*1.3, 5, '#00CED1');
+    }
+
 
 
 	
