@@ -8,7 +8,7 @@ if (!has_role("Admin")) {
 ?>
 
 <form method="POST">
-	<label>Title</labe>
+	<label>Title</label>
 	<input name="title" placeholder="Title"/>
 	<label>Description</label>
 	<input type="text" min="1" name="description"/>
@@ -21,7 +21,7 @@ if (!has_role("Admin")) {
 	
 	<input type="submit" name="save" value="Create"/>
 </form>
-
+<br>
 <?php
 if(isset($_POST["save"])){
 	//TODO add proper validation/checks
