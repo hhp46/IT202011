@@ -18,16 +18,16 @@ if(isset($_POST["save"])){
 	//TODO add proper validation/checks
 	$title = $_POST["title"];
 	$descrip = $_POST["description"];
-	$visibility = $_POST["visibility"];
+	$visibil = $_POST["visibility"];
 	$user = get_user_id();
 	$db = getDB();
 	if(isset($id)){
-		$stmt = $db->prepare("UPDATE Survey set title=:title, description=:descrip, visibility=:visibil, where id=:id");
+		$stmt = $db->prepare("UPDATE Survey set title=:title, description=:descrip, visibility=:visibil where id=:id");
 		
 		$r = $stmt->execute([
 			":title"=>$title,
-			":descrip"=>$description,
-			":visibil"=>$visibility,
+			":descrip"=>$descrip,
+			":visibil"=>$visibil,
 			":id"=>$id
 		]);
 		if($r){
@@ -56,12 +56,12 @@ if(isset($id)){
 ?>
 
 <form method="POST">
-	<label>Title</labe>
-	<input name="title" placeholder="Title" value="<?php echo $result["title"];?>"/>
+	<label>Title</label>
+	<input name="title" placeholder="Title" value="<?php echo $result["title"];?>" />
 	<label>Description</label>
 	<input type="text"  name="description" value="<?php echo $result["description"];?>" />
 	<label>Visibility</label>
-	<select name="state" value="<?php echo $result["visibility"];?>">
+	<select name="visibility" value="<?php echo $result["visibility"];?>">
 		<option value="0" <?php echo ($result["visibility"] == "0"?'selected="selected"':'');?>>Draft</option>
                 <option value="1" <?php echo ($result["visibility"] == "1"?'selected="selected"':'');?>>Private</option>
                 <option value="2" <?php echo ($result["visibility"] == "2"?'selected="selected"':'');?>>Public</option>
