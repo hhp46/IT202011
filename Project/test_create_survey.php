@@ -11,7 +11,7 @@ if (!has_role("Admin")) {
 	<label>Title</labe>
 	<input name="title" placeholder="Title"/>
 	<label>Description</label>
-	<input type="text" min="1" name="description_text"/>
+	<input type="text" min="1" name="description"/>
 	<label>Visibility</label>
 	<select name="visibility">
 		<option value="0">Draft</option>
@@ -34,7 +34,7 @@ if(isset($_POST["save"])){
 	$r = $stmt->execute([
 		":title"=>$title,
 		":descrip"=>$descrip,
-		":visibil=>$visibility,
+		":visibil"=>$visibil,
 		":user"=>$user
 	]);
 	if($r){

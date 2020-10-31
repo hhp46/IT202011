@@ -17,13 +17,13 @@ if(isset($_GET["id"])){
 if(isset($_POST["save"])){
 	//TODO add proper validation/checks
 	$title = $_POST["title"];
-	$descrip = $_POST["description_text"];
+	$descrip = $_POST["description"];
 	$visibility = $_POST["visibility"];
 	$user = get_user_id();
 	$db = getDB();
 	if(isset($id)){
 		$stmt = $db->prepare("UPDATE Survey set title=:title, description=:descrip, visibility=:visibil, where id=:id");
-		//$stmt = $db->prepare("INSERT INTO F20_Eggs (name, state, base_rate, mod_min, mod_max, next_stage_time, user_id) VALUES(:name, :state, :br, :min,:max,:nst,:user)");
+		
 		$r = $stmt->execute([
 			":title"=>$title,
 			":descrip"=>$description,
