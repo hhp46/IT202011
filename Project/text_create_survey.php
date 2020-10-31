@@ -8,43 +8,33 @@ if (!has_role("Admin")) {
 ?>
 
 <form method="POST">
-	<label>Name</labe>
-	<input name="name" placeholder="Name"/>
-	<label>State</label>
-	<select name="state">
-		<option value="0">Incubating</option>
-		<option value="1">Hatching</option>
-		<option value="2">Hatched</option>
-		<option value="3">Expired</option>
+	<label>Title</labe>
+	<input name="title" placeholder="Title"/>
+	<label>Description</label>
+	<input type="text" min="1" name="description_text"/>
+	<label>Visibility</label>
+	<select name="visibility">
+		<option value="0">Draft</option>
+		<option value="1">Private</option>
+		<option value="2">Public</option>
 	</select>
-	<label>Base Rate</label>
-	<input type="number" min="1" name="base_rate"/>
-	<label>Mod Min</label>
-	<input type="number" min="1" name="mod_min"/>
-	<label>Mod Max</label>
-	<input type="number" min="1" name="mod_max"/>
+	
 	<input type="submit" name="save" value="Create"/>
 </form>
 
 <?php
 if(isset($_POST["save"])){
 	//TODO add proper validation/checks
-	$name = $_POST["name"];
-	$state = $_POST["state"];
-	$br = $_POST["base_rate"];
-	$min = $_POST["mod_min"];
-	$max = $_POST["mod_max"];
-	$nst = date('Y-m-d H:i:s');//calc
+	$title = $_POST["title"];
+	$descrip = $_POST["description"];
+	$visibil = $_POST["visibility"];
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO F20_Eggs (name, state, base_rate, mod_min, mod_max, next_stage_time, user_id) VALUES(:name, :state, :br, :min,:max,:nst,:user)");
+	$stmt = $db->prepare("INSERT INTO Survey (title, description, visibility, user_id) VALUES(:title, :descrip, :visibil, :user)");
 	$r = $stmt->execute([
-		":name"=>$name,
-		":state"=>$state,
-		":br"=>$br,
-		":min"=>$min,
-		":max"=>$max,
-		":nst"=>$nst,
+		":title"=>$title,
+		":descrip"=>$descrip,
+		":visibil=>$visibility,
 		":user"=>$user
 	]);
 	if($r){
