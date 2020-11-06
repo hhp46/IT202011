@@ -54,7 +54,7 @@ if(isset($id)){
 	$result = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
-
+<br>
 <form method="POST">
 	<label>Title</label>
 	<input name="title" placeholder="Title" value="<?php echo $result["title"];?>" />
