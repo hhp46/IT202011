@@ -1,8 +1,8 @@
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
-if (!has_role("Admin")) {
+if (!is_logged_in()) {
     //this will redirect to login and kill the rest of this script (prevent it from executing)
-    flash("You don't have permission to access this page");
+    flash("You must be logged in to access this page");
     die(header("Location: login.php"));
 }
 ?>
@@ -17,7 +17,7 @@ if (isset($_GET["id"])) {
 $result = [];
 if (isset($id)) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT ques.id,ques.question,ques.survey_id from Questions as ques JOIN Survey on ques.survey_id = Survey.id WHERE ques.id = :id");
+    $stmt = $db->prepare("SELECT Survey.id,title,description, category, visibility, user_id, Users.username FROM Survey  JOIN Users on Survey.user_id = Users.id where Survey.id = :id");
     $r = $stmt->execute([":id" => $id]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$result) {
@@ -26,18 +26,19 @@ if (isset($id)) {
     }
 }
 ?>
-    <h3>View Question</h3>
+<h3>View Surveys</h3>
 <?php if (isset($result) && !empty($result)): ?>
     <div class="card">
         <div class="card-title">
-            <?php safer_echo($result["question"]); ?>
+           <b> Survey Title:  </b><?php safer_echo($result["title"]); ?>
         </div>
         <div class="card-body">
             <div>
-                <p>Info</p>
-                
-                <div>Survey: <?php safer_echo($result["survey_id"]); ?></div>
-               
+                <p><b>Survey Info</b></p>
+                <div>Description: <?php safer_echo($result["description"]); ?></div>
+                <div>Category: <?php safer_echo($result["category"]); ?></div>
+                <div>Current Visibility: <?php getVisibility($result["visibility"]); ?></div>
+                <div>Owned by: <?php safer_echo($result["username"]); ?></div>
             </div>
         </div>
     </div>
