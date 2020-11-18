@@ -54,6 +54,7 @@ if (isset($_POST["search"]) && !empty($query)) {
 
 
                         <a type="button" href="edit_survey.php?id=<?php safer_echo($r['id']); ?>">Edit</a> 
+                        <a type="button" href="create_quest.php?id=<?php safer_echo($r['id']); ?>">Add Question</a> 
                         
                         <?php endif; ?>
 

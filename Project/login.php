@@ -1,4 +1,3 @@
-
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 
 <title> Login Page </title>
