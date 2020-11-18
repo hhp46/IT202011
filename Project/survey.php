@@ -95,7 +95,7 @@ else {
 ?>
 
 <div class="container-fluid">
-    <h3><?php safer_echo($title); ?></h3>
+    <h3><?php safer_echo($name); ?></h3>
     <form method="POST">
         <div class="list-group">
             <?php foreach ($questions as $index => $question): ?>
@@ -108,7 +108,7 @@ else {
                                 <?php $eleId = $index . '-' . $answer["answerId"]; ?>
                                 <label class="btn btn-primary m-1 btn-outline-light btn-block" style="border-radius: 0"
                                        role="button" for="option-<?php echo $eleId; ?>">
-                                    <input type="text" name="<?php safer_echo($index); ?>"
+                                    <input type="radio" name="<?php safer_echo($index); ?>"
                                            id="option-<?php echo $eleId; ?>"
                                            value="<?php safer_echo($answer["answerId"]); ?>">
                                     <?php safer_echo($answer["answer"]); ?>
