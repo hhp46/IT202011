@@ -46,6 +46,7 @@ if (isset($_POST["search"]) && !empty($query)) {
                     <div>
                         <div>Owner Id: <?php safer_echo($r["user_id"]); ?></div>
                     </div>
+                     
                     <div>
                         <a type="button" href="test_edit_survey.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
                         <a type="button" href="test_view_survey.php?id=<?php safer_echo($r['id']); ?>">View</a>
