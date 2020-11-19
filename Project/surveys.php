@@ -38,8 +38,11 @@ if (isset($results)) {
                         </div>
                     </div>
                 </div>
+                
             <?php endforeach; ?>
         </div>
+        
+          <a href="<?php echo getURL("results.php"); ?>">Results Page</a>
     <?php else: ?>
         <p>No surveys available</p>
     <?php endif; ?>

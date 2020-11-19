@@ -33,7 +33,8 @@ if (isset($_POST["submit"])) {
     $stmt = $db->prepare($query);
     $r = $stmt->execute($params);
     if ($r) {
-        flash("Answers have been recorded", "success");
+    die(header("Location: " . getURL("results.php")));
+      //  flash("Answers have been recorded", "success");
     }
     else {
         flash("There was an error recording your answers: " . var_export($stmt->errorInfo(), true));
