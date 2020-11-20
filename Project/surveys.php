@@ -23,18 +23,7 @@ if (isset($results)) {
 }
 ?>
 
-<?php
-if (isset($_POST["results"])) {
-   
-    die(header("Location: " . getURL("results.php")));
-      //  flash("Answers have been recorded", "success");
-    }
-    else {
-        flash("There was an error going to the results page: " . var_export($stmt->errorInfo(), true));
-    }
-    
 
-?>
 <div class="container-fluid">
     <h3>Surveys (<?php echo $count; ?>)</h3>
     <?php if (isset($results) && $count > 0): ?>

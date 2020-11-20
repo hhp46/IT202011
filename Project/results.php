@@ -7,18 +7,7 @@ if (!is_logged_in()) {
 }
 ?>
 
-<?php
-if (isset($_POST["submit"])) {
-   
-    die(header("Location: " . getURL("surveys.php")));
-      //  flash("Answers have been recorded", "success");
-    }
-    else {
-        flash("There was an error going to surveys page: " . var_export($stmt->errorInfo(), true));
-    }
-    
 
-?>
 
 <?php
 if (isset($_GET["id"])) {
@@ -35,25 +24,6 @@ else {
 }
 ?>
 
-<?php
-if (isset($_GET["id"])) {
-    $sid = $_GET["id"];
-$db = getDB();
-$stmt = $db->prepare("SELECT user_id, survey_id, question_id, answer_id FROM Responses JOIN Answers on Answers.id = Responses.answer_id JOIN Questions on Responses.question_id = Questions.id WHERE Responses.survey_id = :survey and Responses.user_id = :user");
-$r = $stmt->execute([":id" => get_user_id(),":survey_id" => $sid]);
-if ($r) {
-    $results = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-else {
-    flash("There was a problem fetching responses: " . var_export($stmt->errorInfo(), true));
-}
-$count = 0;
-if (isset($results)) {
-    $count = count($results);
-}
-}
-}
-?>
 
 
 <h3>Your Survey Responses</h3>
