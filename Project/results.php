@@ -25,16 +25,13 @@ if (isset($_GET["id"])) {
     $sid = $_GET["id"];
 $db = getDB();
 $stmt = $db->prepare("SELECT title, description, user_id FROM Survey");
-$r = $stmt->execute([":id" => get_user_id(),":survey_id" => $sid]);
+$r = $stmt->execute([":survey_id" => $sid]);
 if ($r) {
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 else {
     flash("There was a problem fetching responses: " . var_export($stmt->errorInfo(), true));
 }
-$count = 0;
-if (isset($results)) {
-    $count = count($results);
 }
 ?>
 
@@ -45,7 +42,7 @@ $db = getDB();
 $stmt = $db->prepare("SELECT user_id, survey_id, question_id, answer_id FROM Responses JOIN Answers on Answers.id = Responses.answer_id JOIN Questions on Responses.question_id = Questions.id WHERE Responses.survey_id = :survey and Responses.user_id = :user");
 $r = $stmt->execute([":id" => get_user_id(),":survey_id" => $sid]);
 if ($r) {
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 else {
     flash("There was a problem fetching responses: " . var_export($stmt->errorInfo(), true));
@@ -63,12 +60,15 @@ if (isset($results)) {
 
 <div class="container-fluid">
         <div class="list-group">
-            <?php foreach ($results as $s): ?>
+            <?php foreach ($results as $r): ?>
                 <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-8"><?php safer_echo($s["title"]); ?></div>
-                          <div class="col-8"><?php safer_echo($s["description"]); ?></div>
-                        <div class="col-8"><?php safer_echo($s["question"]); ?></div>  <div class="col-8"><?php safer_echo($s["answer_id"]); ?></div>
+                    <div class="list-group-item">
+                    <div>
+                        <div>Title: <?php safer_echo($r["title"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Description: <?php safer_echo($r["description"]); ?></div>
+                   </div>
                         <div class="col">
                            <input type="submit" name="submit" class="btn btn-success btn-block" value="Available Surveys"/>
                            
