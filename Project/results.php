@@ -27,7 +27,7 @@ $db = getDB();
 $stmt = $db->prepare("SELECT Survey.id, title, description, user_id FROM Survey WHERE Survey.id = :id");
 $r = $stmt->execute([":survey_id" => $sid]);
 if ($r) {
-    $results = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 else {
     flash("There was a problem fetching responses: " . var_export($stmt->errorInfo(), true));
