@@ -24,7 +24,7 @@ if (isset($_POST["submit"])) {
 if (isset($_GET["id"])) {
     $sid = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT title, description, user_id FROM Survey");
+$stmt = $db->prepare("SELECT Survey.id, title, description, user_id FROM Survey WHERE Survey.id = :id");
 $r = $stmt->execute([":survey_id" => $sid]);
 if ($r) {
     $results = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -58,33 +58,21 @@ if (isset($results)) {
 
 <h3>Your Survey Responses</h3>
 
-<div class="container-fluid">
-        <div class="list-group">
-            <?php foreach ($results as $r): ?>
-                <div class="list-group-item">
-                    <div class="list-group-item">
-                    <div>
-                        <div>Title: <?php safer_echo($r["title"]); ?></div>
-                    </div>
-                    <div>
-                        <div>Description: <?php safer_echo($r["description"]); ?></div>
-                   </div>
-                        <div class="col">
-                           <input type="submit" name="submit" class="btn btn-success btn-block" value="Available Surveys"/>
-                           
-                        </div>
-                    </div>
-                </div>
+        
+ <?php if (isset($result) && !empty($result)): ?>
+    <div class="card">
+     
+        <div class="card-body">
+            <div>
                 
-            <?php endforeach; ?>
+                <div>Survey Title: <?php safer_echo($result["title"]); ?></div>
+                <div>Description:: <?php safer_echo($result["description"]); ?></div>
+              
+            </div>
         </div>
-        
-   
-    <?php else: ?>
-        
-    <?php endif; ?>
-</div>
-
-
+    </div>
+<?php else: ?>
+    <p>Error ...</p>
+<?php endif; ?>
 
 <?php require(__DIR__ . "/partials/flash.php");
