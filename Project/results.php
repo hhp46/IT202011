@@ -24,7 +24,7 @@ if (isset($_POST["submit"])) {
 if (isset($_GET["id"])) {
     $sid = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT Survey.id, title, description, user_id FROM Survey WHERE Survey.id = :id");
+$stmt = $db->prepare("SELECT Survey.id, title, description, user_id FROM Survey WHERE Survey.id = :survey_id");
 $r = $stmt->execute([":survey_id" => $sid]);
 if ($r) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
