@@ -22,6 +22,19 @@ if (isset($results)) {
     $count = count($results);
 }
 ?>
+
+<?php
+if (isset($_POST["results"])) {
+   
+    die(header("Location: " . getURL("results.php")));
+      //  flash("Answers have been recorded", "success");
+    }
+    else {
+        flash("There was an error going to the results page: " . var_export($stmt->errorInfo(), true));
+    }
+    
+
+?>
 <div class="container-fluid">
     <h3>Surveys (<?php echo $count; ?>)</h3>
     <?php if (isset($results) && $count > 0): ?>
@@ -41,8 +54,8 @@ if (isset($results)) {
                 
             <?php endforeach; ?>
         </div>
-        
-          <a href="<?php echo getURL("results.php"); ?>">Results Page</a>
+        <input type="submit" name="results" value="Results Page"/>
+         
     <?php else: ?>
         <p>No surveys available</p>
     <?php endif; ?>
