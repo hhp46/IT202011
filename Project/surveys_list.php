@@ -9,17 +9,14 @@ if (!is_logged_in()) {
 
 <?php
 //surveys taken by user
-//if (isset($_GET["id"])) {
-//    $sid = $_GET["id"];
-//$db = getDB();
-$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses Join Survey ON Responses.survey_id=Survey.id WHERE  Responses.user_id=:id order by title ASC LIMIT 10");
+$db = getDB();
+$stmt = $db->prepare("SELECT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 }
 else {
-    flash("There was a problem fetching surveys taken and count: " . var_export($stmt->errorInfo(), true));
-}
+    flash("There was a problem fetching surveys taken: " . var_export($stmt->errorInfo(), true));
 }
 
 ?>
@@ -29,7 +26,7 @@ else {
 <h3>Survey's Taken</h3>
 <br>
 
-<h4>Title - Times taken</h4>
+<h4>Title -- ID</h4>
 
 
 <?php if (count($results) > 0): ?>
@@ -38,7 +35,7 @@ else {
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div><?php safer_echo($r["title"]); ?> - <?php safer_echo($r["TOTAL"]); ?></div>
+                        <div><?php safer_echo($r["title"]); ?> - <?php safer_echo($r["survey_id"]); ?></div>
                     
                     </div>
            
@@ -46,13 +43,8 @@ else {
             </div>
              <?php endforeach; ?>
            
-               
-            
-       
+                 
     <?php else: ?>
         <p>No results</p>
            <?php endif; ?>
-           
-      
-           
 <?php require(__DIR__ . "/partials/flash.php"); ?>
