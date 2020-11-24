@@ -31,10 +31,12 @@ else {
                         <div><?php safer_echo($r["title"]); ?></div> <div> <?php safer_echo($r["survey_id"]); ?></div>
                     
                     </div>
-             <?php endforeach; ?>
+           
       
     <?php else: ?>
         <p>No results</p>
-        
+         
 </div>
+ <?php endforeach; ?>
+
 <?php require(__DIR__ . "/partials/flash.php"); ?>
