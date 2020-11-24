@@ -8,7 +8,7 @@ if (!is_logged_in()) {
 ?>
 
 <?php
-//get latest 10 surveys we haven't take
+//surveys taken by user
 $db = getDB();
 $stmt = $db->prepare("SELECT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
 $r = $stmt->execute([":id" => get_user_id()]);
@@ -21,12 +21,25 @@ else {
 
 ?>
 
+<?php
+//get how many times survey was taken 
+$db = getDB();
+$stmt = $db->prepare("SELECT COUNT Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = :survey and Responses.user_id=:id");
+$c = $stmt->execute([":survey" =>$sid,":id" => get_user_id()]);
+if ($c) {
+    $counts = $stmt->fetchALL(PDO::FETCH_ASSOC);
+}
+else {
+    flash("There was a problem fetching survey count: " . var_export($stmt->errorInfo(), true));
+}
+
+?>
+
 <h3>Survey's Taken</h3>
 <br>
 
 <h4>Title -- ID</h4>
 
-<br>
 
 <?php if (count($results) > 0): ?>
                
@@ -41,6 +54,19 @@ else {
       
             </div>
              <?php endforeach; ?>
+           
+               
+               <div class="counts">
+		    <?php foreach ($counts as $c): ?>
+                
+                    <div>
+                        <div><?php safer_echo($c["survey_id"]); ?></div>
+                    
+                    </div>
+           
+      
+            </div>
+                           <?php endforeach; ?>
        
     <?php else: ?>
         <p>No results</p>
