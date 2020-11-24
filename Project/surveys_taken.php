@@ -23,16 +23,19 @@ else {
 
 <?php
 //get how many times survey was taken 
+if (isset($_GET["id"])) {
+    $sid = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT COUNT Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = :survey and Responses.user_id=:id");
-$c = $stmt->execute([":survey" =>$sid,":id" => get_user_id()]);
+////SELECT title, COUNT(Responses.survey_id) from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = 1 and Responses.user_id= 4 GROUP BY title
+$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = :survey and Responses.user_id= :id GROUP BY title");
+$c = $stmt->execute([":survey" =>$sid ,":id" => get_user_id()]);
 if ($c) {
     $counts = $stmt->fetchALL(PDO::FETCH_ASSOC);
 }
 else {
     flash("There was a problem fetching survey count: " . var_export($stmt->errorInfo(), true));
 }
-
+}
 ?>
 
 <h3>Survey's Taken</h3>
@@ -56,19 +59,29 @@ else {
              <?php endforeach; ?>
            
                
-               <div class="counts">
-		    <?php foreach ($counts as $c): ?>
-                
-                    <div>
-                        <div><?php safer_echo($c["survey_id"]); ?></div>
-                    
-                    </div>
-           
-      
-            </div>
-                           <?php endforeach; ?>
+            
        
     <?php else: ?>
         <p>No results</p>
            <?php endif; ?>
+           
+           <?php if (count($counts) > 0): ?>
+           
+              <div class="counts">
+		    <?php foreach ($counts as $c): ?>
+                
+                    <div>
+                       <div><?php safer_echo($c["title"]); ?> - <?php safer_echo($c["survey_id"]); ?></div>
+                    
+               	     </div>
+           
+      
+            </div>
+    <?php endforeach; ?>
+                           
+      <?php else: ?>
+        <p>No results</p>
+           <?php endif; ?>
+           
+           
 <?php require(__DIR__ . "/partials/flash.php"); ?>
