@@ -10,7 +10,7 @@ if (!is_logged_in()) {
 <?php
 //get latest 10 surveys we haven't take
 $db = getDB();
-$stmt = $db->prepare("SELECT DISTINCT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
+$stmt = $db->prepare("SELECT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
@@ -34,7 +34,7 @@ else {
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div><?php safer_echo($r["title"]); ?> <?php safer_echo($r["survey_id"]); ?></div>
+                        <div><?php safer_echo($r["title"]); ?> - <?php safer_echo($r["survey_id"]); ?></div>
                     
                     </div>
            
