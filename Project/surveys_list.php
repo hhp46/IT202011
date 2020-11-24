@@ -13,7 +13,7 @@ $db = getDB();
 $stmt = $db->prepare("SELECT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
-    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 else {
     flash("There was a problem fetching surveys taken: " . var_export($stmt->errorInfo(), true));
