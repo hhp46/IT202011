@@ -9,11 +9,13 @@ if (!is_logged_in()) {
 
 <?php
 //surveys taken by user
-if (isset($_GET["id"])) {
-    $sid = $_GET["id"];
+//if (isset($_GET["id"])) {
+  //  $sid = $_GET["id"];
+  //Responses.survey_id = :survey and 
+  //":survey"=>$sid,
 $db = getDB();
-$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = :survey and Responses.user_id=:id order by title ASC LIMIT 10");
-$r = $stmt->execute([":survey"=>$sid,":id" => get_user_id()]);
+$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses RIGHT JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -21,7 +23,7 @@ else {
     flash("There was a problem fetching surveys taken and count: " . var_export($stmt->errorInfo(), true));
 }
 
-}
+
 ?>
 
 
