@@ -10,7 +10,7 @@ if (!is_logged_in()) {
 <?php
 //get latest 10 surveys we haven't take
 $db = getDB();
-$stmt = $db->prepare("SELECT DISTINCT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id LIMIT 10");
+$stmt = $db->prepare("SELECT DISTINCT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
@@ -22,21 +22,27 @@ else {
 ?>
 
 <h3>Survey's Taken</h3>
+<br>
 
+<h4>Title -- ID</h4>
+
+<br>
+
+<?php if (count($results) > 0): ?>
                
           <div class="results">
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div><?php safer_echo($r["title"]); ?></div> <div> <?php safer_echo($r["survey_id"]); ?></div>
+                        <div><?php safer_echo($r["title"]); ?> <?php safer_echo($r["survey_id"]); ?></div>
                     
                     </div>
            
       
+            </div>
+             <?php endforeach; ?>
+       
     <?php else: ?>
         <p>No results</p>
-         
-</div>
- <?php endforeach; ?>
-
+           <?php endif; ?>
 <?php require(__DIR__ . "/partials/flash.php"); ?>
