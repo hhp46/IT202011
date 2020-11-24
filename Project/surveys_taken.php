@@ -12,7 +12,7 @@ if (!is_logged_in()) {
 if (isset($_GET["id"])) {
     $sid = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = :survey and Responses.user_id=:id order by Responses.created ASC LIMIT 10");
+$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses Join Survey ON Responses.survey_id=Survey.id WHERE responses.survey_id = :survey and Responses.user_id=:id order by title ASC LIMIT 10");
 $r = $stmt->execute([":survey" =>$sid ,":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
