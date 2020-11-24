@@ -13,40 +13,28 @@ $db = getDB();
 $stmt = $db->prepare("SELECT DISTINCT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id LIMIT 10");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 }
 else {
     flash("There was a problem fetching surveys taken: " . var_export($stmt->errorInfo(), true));
 }
-$count = 0;
-if (isset($results)) {
-    $count = count($results);
-}
+
 ?>
 
 <h3>Survey's Taken</h3>
 
-        
- <?php if (isset($result) && !empty($result)): ?>
-              <div class="results">   
-<div class="card-body">
-            <div>
-                
-                <div> <?php safer_echo($result["title"]); ?></div> <div><?php safer_echo($result["survey_id"]); ?></div>
-      
-      
-        
+               
+          <div class="results">
             <?php foreach ($results as $r): ?>
                 
-                  
+                    <div>
+                        <div><?php safer_echo($r["title"]); ?></div> <div> <?php safer_echo($r["survey_id"]); ?></div>
+                    
                     </div>
              <?php endforeach; ?>
-        </div>
+      
     <?php else: ?>
         <p>No results</p>
         
- </div>  
-  <?php endif; ?>
-
-
+</div>
 <?php require(__DIR__ . "/partials/flash.php"); ?>
