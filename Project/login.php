@@ -15,7 +15,13 @@
         <label for="p1">Password:</label>
         <input type="password" id="p1" name="password" />
         <input type="submit" name="login" value="Login"/>
+         
     </form>
+    <div class="results">
+      <div>
+    <a type="button" href="password_reset.php">Forgot Password</a> 
+      </div>
+      </div>
 <?php
 if (isset($_POST["login"])) {
    
