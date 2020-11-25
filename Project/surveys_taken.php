@@ -14,7 +14,7 @@ if (!is_logged_in()) {
   //Responses.survey_id = :survey and 
   //":survey"=>$sid,
 $db = getDB();
-$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses RIGHT JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
