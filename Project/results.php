@@ -30,6 +30,8 @@ if (isset($_GET["id"])) {
 $db = getDB();
 $stmt = $db->prepare("SELECT Responses.user_id, Responses.survey_id, Responses.question_id, Responses.answer_id, answer, question FROM Responses JOIN Answers on Answers.id = Responses.answer_id JOIN Questions on Responses.question_id = Questions.id WHERE Responses.survey_id = :survey and Responses.user_id = :user");
 
+
+
 $r = $stmt->execute([":survey" => $sid,":user" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
@@ -67,7 +69,7 @@ else {
              <?php endforeach; ?>
         </div>
     <?php else: ?>
-        <p>No results</p>
+        <p>No results - Insert Id of Survey you took in Url to display results</p>
         
  </div>  
   <?php endif; ?>

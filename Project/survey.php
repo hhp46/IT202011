@@ -33,12 +33,12 @@ if (isset($_POST["submit"])) {
     $stmt = $db->prepare($query);
     $r = $stmt->execute($params);
     if ($r) {
-      flash("Answers have been recorded", "success");
+      flash("Your responses have been recorded", "success");
     }
     else {
-        flash("There was an error recording your answers: " . var_export($stmt->errorInfo(), true));
+        flash("There was an error recording your responses: " . var_export($stmt->errorInfo(), true));
     }
-    die(header("Location: " . getURL("surveys.php")));
+    die(header("Location: " . getURL("results.php?id=".$_GET["id"])));
 }
 ?>
 
@@ -76,7 +76,7 @@ if (isset($_GET["id"])) {
         }
         else {
         
-            flash("Looks like you already took this survey" .get_user_id());
+            flash("Looks like you already took this survey");
             die(header("Location: " . getURL("surveys.php")));
         }
         //echo "<pre>" . var_export($questions, true) . "</pre>";
