@@ -27,7 +27,7 @@ if (isset($_POST["results"])) {
  die(header("Location: " . getURL("results.php")));}
 ?>
 <div class="container-fluid">
-    <h3>Surveys (<?php echo $count; ?>)</h3>
+    <h3>Available Surveys (<?php echo $count; ?>)</h3>
     <?php if (isset($results) && $count > 0): ?>
         <div class="list-group">
             <?php foreach ($results as $s): ?>

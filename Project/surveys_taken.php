@@ -9,36 +9,33 @@ if (!is_logged_in()) {
 
 <?php
 //surveys taken by user
+//if (isset($_GET["id"])) {
+  //  $sid = $_GET["id"];
+  //Responses.survey_id = :survey and 
+  //":survey"=>$sid,
 $db = getDB();
-$stmt = $db->prepare("SELECT title, Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id where Responses.user_id=:id order by Responses.created ASC LIMIT 10");
+$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+//$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
-    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 else {
-    flash("There was a problem fetching surveys taken: " . var_export($stmt->errorInfo(), true));
+    flash("There was a problem fetching surveys taken and count: " . var_export($stmt->errorInfo(), true));
 }
+
 
 ?>
 
 <?php
-//get how many times survey was taken 
-$db = getDB();
-$stmt = $db->prepare("SELECT COUNT Responses.survey_id from Responses Join Survey ON Responses.survey_id=Survey.id WHERE Responses.survey_id = :survey and Responses.user_id=:id");
-$c = $stmt->execute([":survey" =>$sid,":id" => get_user_id()]);
-if ($c) {
-    $counts = $stmt->fetchALL(PDO::FETCH_ASSOC);
-}
-else {
-    flash("There was a problem fetching survey count: " . var_export($stmt->errorInfo(), true));
-}
-
+if (isset($_POST["results"])) {
+ die(header("Location: " . getURL("results.php")));}
 ?>
 
 <h3>Survey's Taken</h3>
 <br>
 
-<h4>Title -- ID</h4>
+<h4>Title - Times taken</h4>
 
 
 <?php if (count($results) > 0): ?>
@@ -47,7 +44,7 @@ else {
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div><?php safer_echo($r["title"]); ?> - <?php safer_echo($r["survey_id"]); ?></div>
+                        <div> <?php safer_echo($r["title"]); ?> - <?php safer_echo($r["TOTAL"]); ?></div>
                     
                     </div>
            
@@ -56,19 +53,16 @@ else {
              <?php endforeach; ?>
            
                
-               <div class="counts">
-		    <?php foreach ($counts as $c): ?>
-                
-                    <div>
-                        <div><?php safer_echo($c["survey_id"]); ?></div>
-                    
-                    </div>
-           
-      
-            </div>
-                           <?php endforeach; ?>
-       
+            
+        <form method="POST">
+        <input type="submit" name="results" value="Results Page"/>
+         
+    </form>
+    
     <?php else: ?>
         <p>No results</p>
            <?php endif; ?>
+           
+      
+           
 <?php require(__DIR__ . "/partials/flash.php"); ?>
