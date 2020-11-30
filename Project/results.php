@@ -69,7 +69,7 @@ else {
              <?php endforeach; ?>
         </div>
     <?php else: ?>
-        <p>No results</p>
+        <p>No results - Insert Id of Survey you took in Url to display results</p>
         
  </div>  
   <?php endif; ?>

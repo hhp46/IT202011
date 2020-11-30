@@ -14,7 +14,8 @@ if (!is_logged_in()) {
   //Responses.survey_id = :survey and 
   //":survey"=>$sid,
 $db = getDB();
-$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+//$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -26,7 +27,10 @@ else {
 
 ?>
 
-
+<?php
+if (isset($_POST["results"])) {
+ die(header("Location: " . getURL("results.php")));}
+?>
 
 <h3>Survey's Taken</h3>
 <br>
@@ -40,7 +44,7 @@ else {
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div><?php safer_echo($r["title"]); ?> - <?php safer_echo($r["TOTAL"]); ?></div>
+                        <div> <?php safer_echo($r["title"]); ?> - <?php safer_echo($r["TOTAL"]); ?></div>
                     
                     </div>
            
@@ -50,7 +54,11 @@ else {
            
                
             
-       
+        <form method="POST">
+        <input type="submit" name="results" value="Results Page"/>
+         
+    </form>
+    
     <?php else: ?>
         <p>No results</p>
            <?php endif; ?>
