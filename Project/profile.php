@@ -20,25 +20,7 @@ if (isset($_POST["saved"])) {
     $isValid = true;
     
     
-   //TODO add proper validation/checks
-	
-	$visibil = $_POST["visibility"];
-	$user = get_user_id();
-	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Users (visibility) VALUES( :visibil)");
-	$r = $stmt->execute([
-		
-		":visibil"=>$visibil,
-		
-	]);
-	if($r){
-		flash("Created successfully with id: " . $db->lastInsertId());
-	}
-	else{
-		$e = $stmt->errorInfo();
-		flash("Error creating: " . var_export($e, true));
-	}
-	
+   	
    
     //check if our email changed
     $newEmail = get_email();
