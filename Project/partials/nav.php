@@ -12,18 +12,20 @@ require_once(__DIR__ . "/../lib/helpers.php");
         <li><a href="<?php echo getURL("register.php"); ?>">Register</a></li>
     <?php endif; ?>
      <?php if (has_role("Admin")): ?>
-      <div class="dropdown">
-    <button class="dropbtn">Admin
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
+       <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
      
-            <a href="<?php echo getURL("test/test_create_survey.php"); ?>">Create Survey</a>
-            <a href="<?php echo getURL("test/test_list_survey.php"); ?>">View Surveys</a>
-            <a href="<?php echo getURL("test/test_create_question.php"); ?>">Create Questions</a>
-            <a href="<?php echo getURL("test/test_list_question.php"); ?>">View Questions</a>
+           
+            <a class="nav-link"  href="<?php echo getURL("test/test_list_survey.php"); ?>">Search All Surveys</a>
+             
+           
+            
             </div>
-  </div> 
+  </li>
         <?php endif; ?>
     <?php if (is_logged_in()): ?>
     	<li><a href="<?php echo getURL("create_survey.php"); ?>">Create Survey</a></li>

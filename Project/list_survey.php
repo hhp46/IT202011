@@ -14,7 +14,7 @@ if (isset($_POST["query"])) {
 }
 if (isset($_POST["search"]) && !empty($query)) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT id,title,description, category, visibility, user_id from Survey WHERE (visibility = 2 OR (visibility <2 and user_id = :id)) and title like :q order by created desc LIMIT 10");
+    $stmt = $db->prepare("SELECT id,title,description, category, visibility, user_id from Survey WHERE (visibility = 2 AND visibility !=3 OR (visibility <2 and user_id = :id)) and title like :q order by created desc LIMIT 10");
     $r = $stmt->execute([":q" => "%$query%", ":id" => get_user_id()]);
     if ($r) {
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

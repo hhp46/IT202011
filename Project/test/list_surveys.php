@@ -48,9 +48,9 @@ if (isset($_POST["search"]) && !empty($query)) {
                     </div>
                      
                     <div>
-                        <a type="button" href="test_edit_survey.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
-                         <a type="button" href="test_create_quest.php?id=<?php safer_echo($r['id']); ?>">Add Question</a> 
-                        <a type="button" href="test_view_survey.php?id=<?php safer_echo($r['id']); ?>">View</a>
+                         <a type="button" href="Aedit_surveys.php?id=<?php safer_echo($r['id']); ?>">Edit</a> 
+                        <a type="button" href="Acreate_quests.php?id=<?php safer_echo($r['id']); ?>">Add Question</a> 
+                        <a type="button" href="Aview_surveys.php?id=<?php safer_echo($r['id']); ?>">View</a>
                     </div>
                 </div>
             <?php endforeach; ?>

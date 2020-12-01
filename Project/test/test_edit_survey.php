@@ -65,6 +65,7 @@ if(isset($id)){
 		<option value="0" <?php echo ($result["visibility"] == "0"?'selected="selected"':'');?>>Draft</option>
                 <option value="1" <?php echo ($result["visibility"] == "1"?'selected="selected"':'');?>>Private</option>
                 <option value="2" <?php echo ($result["visibility"] == "2"?'selected="selected"':'');?>>Public</option>
+                <option value="3" <?php echo ($result["visibility"] == "3"?'selected="selected"':'');?>>Disabled</option>
                 
 	</select>
 	
