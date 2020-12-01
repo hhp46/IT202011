@@ -9,6 +9,10 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
+
+
+
+
 $db = getDB();
 //save data if we submitted the form
 if (isset($_POST["saved"])) {
@@ -16,8 +20,7 @@ if (isset($_POST["saved"])) {
     $isValid = true;
     
     
-   
-	
+   	
    
     //check if our email changed
     $newEmail = get_email();
