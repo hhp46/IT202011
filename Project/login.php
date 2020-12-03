@@ -19,7 +19,7 @@
     </form>
     <div class="results">
       <div>
-    <a type="button" href="password_reset.php">Forgot Password</a> 
+   
       </div>
       </div>
 <?php

@@ -6,12 +6,13 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
-?>
 
-<?php
+
+
+
 
 $db = getDB();
-$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as total from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
 //$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
 $r = $stmt->execute([":id" => get_user_id()]);
 if ($r) {
@@ -42,7 +43,7 @@ if (isset($_POST["results"])) {
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div> <?php safer_echo($r["title"]); ?>  <?php safer_echo($r["TOTAL"]); ?></div>
+                        <div> <?php safer_echo($r["title"]); ?> - <?php safer_echo($r["total"]); ?></div>
                     
                     </div>
            
@@ -61,6 +62,18 @@ if (isset($_POST["results"])) {
         <p>No results</p>
            <?php endif; ?>
            
-      
+    <nav aria-label="Taken surveys">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
+                    <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                </li>
+                <?php for($i = 0; $i < $total_pages; $i++):?>
+                <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                <?php endfor; ?>
+                <li class="page-item <?php echo ($page+1) >= $total_pages?"disabled":"";?>">
+                    <a class="page-link" href="?page=<?php echo $page+1;?>">Next</a>
+                </li>
+            </ul>
+        </nav>   
            
 <?php require(__DIR__ . "/partials/flash.php"); ?>

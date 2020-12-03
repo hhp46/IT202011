@@ -9,10 +9,19 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
+
+
+
+
 $db = getDB();
 //save data if we submitted the form
 if (isset($_POST["saved"])) {
+
     $isValid = true;
+    
+    
+   	
+   
     //check if our email changed
     $newEmail = get_email();
     if (get_email() != $_POST["email"]) {
@@ -63,10 +72,13 @@ if (isset($_POST["saved"])) {
             $newUsername = $username;
         }
     }
+    
+   
  	  if ($isValid) {
 		$userID = null;
 		$currentPass = null;
-		$stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
+		
+		$stmt = $db->prepare("UPDATE Users set email = :email, username= :usernamewhere id = :id");
 		$r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
 		if ($r) {
 		flash("Updated Email/user");
@@ -123,8 +135,11 @@ if (isset($_POST["saved"])) {
             $_SESSION["user"]["email"] = $email;
             $_SESSION["user"]["username"] = $username;
         }
+        
+        
     }
     }
+    
    
 
 
@@ -132,8 +147,47 @@ if (isset($_POST["saved"])) {
 ?>
 <br>
 
+<?php
+
+$db = getDB();
+$stmt = $db->prepare("SELECT id,title, user_id from Survey WHERE user_id = :id LIMIT 10");
+$r = $stmt->execute([":id" => get_user_id()]);
+if ($r) {
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+else {
+    flash("There was a problem fetching surveys: " . var_export($stmt->errorInfo(), true));
+}
+$count = 0;
+if (isset($results)) {
+    $count = count($results);
+}
+
+?>
+<?php
+//surveys taken by user
+//if (isset($_GET["id"])) {
+  //  $sid = $_GET["id"];
+  //Responses.survey_id = :survey and 
+  //":survey"=>$sid,
+$db = getDB();
+$stmt = $db->prepare("SELECT title, Responses.survey_id from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+//$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$re = $stmt->execute([":id" => get_user_id()]);
+if ($re) {
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+else {
+    flash("There was a problem fetching surveys taken and count: " . var_export($stmt->errorInfo(), true));
+}
+
+
+?>
+
+
+
 <br>
-   
+   <h3>Update Profile Below</h3>
     <form method="POST">
         <label for="email">Email</label>
         <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>
@@ -146,6 +200,65 @@ if (isset($_POST["saved"])) {
         <input type="password" name="newPassword"/>
         <label for="cpw">Confirm Password</label>
         <input type="password" name="confirm"/>
+        
+        <label>Visibility</label>
+	<select name="visibility">
+		
+		<option value="0">Private</option>
+		<option value="1">Public</option>
+	</select>
+	
+	
         <input type="submit" name="saved" value="Save Profile"/>
     </form>
+    
+    
+    
+    
+<h3>Surveys Created:</h3>
+
+
+<div class="results">
+    <?php if (count($results) > 0): ?>
+        <div class="list-group">
+            <?php foreach ($results as $r): ?>
+                <div class="list-group-item">
+                
+                    <div>
+                        <div>Title: <?php safer_echo($r["title"]); ?></div>
+                    </div>
+                  
+                   
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p>No Surveys Created</p>
+    <?php endif; ?>
+</div>
+
+<h3>Survey's Taken</h3>
+<br>
+
+
+
+<?php if (count($result) > 0): ?>
+               
+          <div class="results">
+            <?php foreach ($result as $re): ?>
+                
+                    <div>
+                     <div>Title: <?php safer_echo($re["title"]); ?></div>
+                       
+                    </div>
+           
+      
+            </div>
+             <?php endforeach; ?>
+           
+               
+    <?php else: ?>
+        <p>No results</p>
+           <?php endif; ?>
+           
 <?php require(__DIR__ . "/partials/flash.php");
