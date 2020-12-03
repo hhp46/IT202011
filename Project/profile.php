@@ -72,6 +72,8 @@ if (isset($_POST["saved"])) {
             $newUsername = $username;
         }
     }
+    
+   
  	  if ($isValid) {
 		$userID = null;
 		$currentPass = null;
