@@ -28,7 +28,9 @@ else {
 if (isset($_GET["id"])) {
     $sid = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT Responses.user_id, Responses.survey_id, Responses.question_id, Responses.answer_id, answer, question FROM Responses JOIN Answers on Answers.id = Responses.answer_id JOIN Questions on Responses.question_id = Questions.id WHERE Responses.survey_id = :survey and Responses.user_id = :user");
+$stmt = $db->prepare("SELECT Responses.id as id, Responses.user_id, Responses.survey_id, Responses.question_id, answer, question, Count(Responses.answer_id) as TOTAL FROM Responses JOIN Answers on Answers.id = Responses.answer_id JOIN Questions on Responses.question_id = Questions.id WHERE Responses.survey_id = :survey and Responses.user_id = :user GROUP BY id" );
+
+//SELECT count(1) FROM Responses where Responses.answer_id = answer_id
 
 
 
@@ -63,7 +65,7 @@ else {
                         <div>Question: <?php safer_echo($r["question"]); ?></div>
                     </div>
                     <div>
-                        <div>Answer: <?php safer_echo($r["answer"]); ?></div>
+                        <div>Answer: <?php safer_echo($r["answer"]); ?> - -  <?php safer_echo($r["TOTAL"]); ?> time(s) picked</div>
                     </div>
                     </div>
              <?php endforeach; ?>
