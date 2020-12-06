@@ -6,7 +6,7 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 $page = 1;
-$per_page = 10;
+$per_page = 4;
 if(isset($_GET["page"])){
     try {
         $page = (int)$_GET["page"];
@@ -27,7 +27,7 @@ $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
 
 
-$stmt = $db->prepare("SELECT s.id ,i.title, s.user_id from Survey s WHERE s.user_id = :id LIMIT :offset, :count");
+$stmt = $db->prepare("SELECT s.id ,title, s.user_id from Survey s WHERE s.user_id = :id LIMIT :offset, :count");
 $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
 $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
 $stmt->bindValue(":id", get_user_id());
