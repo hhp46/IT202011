@@ -1,9 +1,9 @@
-<?php require_once(__DIR__ . "/../partials/nav.php"); ?>
+<?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
 if (!has_role("Admin"or "Admin2")) {
     //this will redirect to login and kill the rest of this script (prevent it from executing)
     flash("You don't have permission to access this page");
-    die(header("Location: ../login.php"));
+    die(header("Location: login.php"));
 }
 ?>
 <?php
@@ -48,9 +48,9 @@ if (isset($_POST["search"]) && !empty($query)) {
                     </div>
                      
                     <div>
-                        <a type="button" href="test_edit_survey.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
+                        <a type="button" href="admineditsurvey.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
                          <a type="button" href="admincreatequest.php?id=<?php safer_echo($r['id']); ?>">Add Question</a> 
-                        <a type="button" href="test_view_survey.php?id=<?php safer_echo($r['id']); ?>">View</a>
+                        <a type="button" href="adminviewsurvey.php?id=<?php safer_echo($r['id']); ?>">View</a>
                     </div>
                 </div>
             <?php endforeach; ?>

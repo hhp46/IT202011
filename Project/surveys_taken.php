@@ -6,21 +6,44 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
-?>
+$page = 1;
+$per_page = 6;
+if(isset($_GET["page"])){
+    try {
+        $page = (int)$_GET["page"];
+    }
+    catch(Exception $s){
 
-<?php
+    }
+}
 
 $db = getDB();
-$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
-//$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
-$r = $stmt->execute([":id" => get_user_id()]);
-if ($r) {
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $db->prepare("SELECT count(Responses.title) as total from Responses s where s.user_id = :id");
+$stmt->execute([":id"=>get_user_id()]);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$total = 0;
+if($result){
+    $total = (int)$result["total"];
 }
-else {
-    flash("There was a problem fetching surveys taken and count: " . var_export($stmt->errorInfo(), true));
+$total_pages = ceil($total / $per_page);
+$offset = ($page-1) * $per_page;
+
+
+
+$db = getDB();
+$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title LIMIT :offset, :count");
+//$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+$stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+$stmt->bindValue(":id", get_user_id());
+$stmt->execute();
+$s = $stmt->errorInfo();
+if($s[0] != "00000"){
+    flash(var_export($s, true), "alert");
 }
 
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -52,15 +75,29 @@ if (isset($_POST["results"])) {
            
                
             
-        <form method="POST">
-        <input type="submit" name="results" value="Results Page"/>
-         
-    </form>
+    
     
     <?php else: ?>
         <p>No results</p>
            <?php endif; ?>
            
       
-           
+         <nav aria-label="My Taken Surveys">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
+                    <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                </li>
+                <?php for($i = 0; $i < $total_pages; $i++):?>
+                <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                <?php endfor; ?>
+                <li class="page-item <?php echo ($page+1) >= $total_pages?"disabled":"";?>">
+                    <a class="page-link" href="?page=<?php echo $page+1;?>">Next</a>
+                </li>
+            </ul>
+        </nav>  
+        
+          <form method="POST">
+        <input type="submit" name="results" value="Results Page"/>
+         
+    </form>  
 <?php require(__DIR__ . "/partials/flash.php"); ?>

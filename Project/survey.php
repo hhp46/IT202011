@@ -112,6 +112,7 @@ else {
                                            id="option-<?php echo $eleId; ?>"
                                            value="<?php safer_echo($answer["answerId"]); ?>">
                                     <?php safer_echo($answer["answer"]); ?>
+                                    <br>
                                 </label>
                             <?php endforeach; ?>
                         </div>
