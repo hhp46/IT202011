@@ -6,7 +6,7 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 $page = 1;
-$per_page = 4;
+$per_page = 6;
 if(isset($_GET["page"])){
     try {
         $page = (int)$_GET["page"];
@@ -42,7 +42,7 @@ if($s[0] != "00000"){
 
 
 ?>
-<h3>List Surveys</h3>
+<h3>My Surveys Created</h3>
 
 
 <div class="results">

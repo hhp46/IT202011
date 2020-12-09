@@ -20,7 +20,7 @@ require_once(__DIR__ . "/../lib/helpers.php");
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
      
            
-            <a class="nav-link"  href="<?php echo getURL("test/test_list_survey.php"); ?>">Search All Surveys</a>
+            <a class="nav-link"  href="<?php echo getURL("adminlistsurvey.php"); ?>">Search All Surveys</a>
              
            
             

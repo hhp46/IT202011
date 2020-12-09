@@ -18,7 +18,7 @@ $db = getDB();
 if (isset($_POST["saved"])) {
 
     $isValid = true;
-    
+    $visibil = $_POST["visibility"];
     
    	
    
@@ -73,15 +73,15 @@ if (isset($_POST["saved"])) {
         }
     }
     
-   
+  
  	  if ($isValid) {
 		$userID = null;
 		$currentPass = null;
-		
-		$stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
-		$r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
+		   $visibil = $_POST["visibility"];
+		$stmt = $db->prepare("UPDATE Users set email = :email, visibility=:visibil ,username= :username where id = :id");
+		$r = $stmt->execute([":email" => $newEmail, ":visibil"=>$visibil, ":username" => $newUsername, ":id" => get_user_id()]);
 		if ($r) {
-		flash("Updated Email/user");
+		flash("Updated Email/user/Visibility");
 			 }
 		else {
 		flash("Error updating profile");
@@ -247,11 +247,15 @@ if($s[0] != "00000"){
         <input type="password" name="confirm"/>
         
         <label>Visibility</label>
-	<select name="visibility">
+	
 		
-		<option value="0">Private</option>
-		<option value="1">Public</option>
+	<select name="visibility" value="<?php echo $result["visibility"];?>">
+		<option value="0" <?php echo ($result["visibility"] == "0"?'selected="selected"':'');?>>Private</option>
+                <option value="1" <?php echo ($result["visibility"] == "1"?'selected="selected"':'');?>>Public</option>
+               
+                
 	</select>
+	
 	
 	
         <input type="submit" name="saved" value="Save Profile"/>
