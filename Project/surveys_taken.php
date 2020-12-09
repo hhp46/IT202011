@@ -7,7 +7,7 @@ if (!is_logged_in()) {
 }
 
 $page = 1;
-$per_page = 4;
+$per_page = 6;
 if(isset($_GET["page"])){
     try {
         $page = (int)$_GET["page"];
