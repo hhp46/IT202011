@@ -15,7 +15,7 @@ error_reporting(0);
 ?>
     <h3>Create Question</h3>
     <form method="POST">
-        <label>Question</label>
+        <label><b>Question</b></label>
         <input name="question" placeholder="Question"/>
            
        

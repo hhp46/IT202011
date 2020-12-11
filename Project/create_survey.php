@@ -6,13 +6,24 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 ?>
+<br>
+
+<br>
+
 
 <form method="POST">
-	<label>Survey Title</label>
+	<label><b>Survey Title</b> </label>
+		<br>
 	<input name="title" placeholder="Title"/>
-	<label>Description</label>
+		<br>
+		<br>
+	<label><b>Description</b> </label>
+		<br>
 	<input type="text" min="1" name="description"/>
-	<label>Category</label>
+	<br>
+		<br>
+	<label><b>Category</b> </label>
+		<br>
 	<select name="category">
 		<option value="Address Survey">Address Survey</option>
 		<option value="College Survey">College Survey</option>
@@ -22,13 +33,16 @@ if (!is_logged_in()) {
 		<option value="Sports Survey">Sports Survey</option>
 		<option value="Other Survey">Other Survey</option>
 	</select>
-	<label>Visibility</label>
+<br>
+		<br>
+	<label><b>Visibility</b> </label>
 	<select name="visibility">
 		<option value="0">Draft</option>
 		<option value="1">Private</option>
 		<option value="2">Public</option>
 	</select>
-	
+<br>
+		<br>
 	<input type="submit" name="save" value="Create"/>
 </form>
 <br>

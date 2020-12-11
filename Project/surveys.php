@@ -31,18 +31,17 @@ if (isset($_POST["results"])) {
     <?php if (isset($results) && $count > 0): ?>
         <div class="list-group">
             <?php foreach ($results as $s): ?>
-                <div class="list-group-item">
+                <div >
                     <div class="row">
-                        <div class="col-8"><?php safer_echo($s["title"]); ?></div>
-                        <div class="col">
-                            <a type="button" class="btn btn-success"
-                               href="<?php echo getURL("survey.php?id=" . $s["id"]); ?>">
-                                Take Survey
-                            </a>
+                        <div ><?php safer_echo($s["title"]); ?></div>
+                         
+                        <div>
+                            <a type="button" href="<?php echo getURL("survey.php?id=" . $s["id"]); ?>">   Take Survey      </a>
                         </div>
                     </div>
                 </div>
-                
+                <br>
+                <br>
             <?php endforeach; ?>
         </div>
         <form method="POST">

@@ -46,7 +46,7 @@ else {
 ?>
 
 
-<h3>Your Survey Responses</h3>
+<h3><u>Your Survey Responses</u></h3>
 
         
  <?php if (isset($result) && !empty($result)): ?>
@@ -54,20 +54,24 @@ else {
 <div class="card-body">
             <div>
                 
-                <div>Survey Title: <?php safer_echo($result["title"]); ?></div>
-                <div>Description:: <?php safer_echo($result["description"]); ?></div>
+                <div><b>Survey Title:</b> <?php safer_echo($result["title"]); ?></div>
+                <div><b>Description:</b> <?php safer_echo($result["description"]); ?></div>
+      <br>
+      <br>
       
       
         
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div>Question: <?php safer_echo($r["question"]); ?></div>
+                        <div><b>Question:</b> <?php safer_echo($r["question"]); ?></div>
                     </div>
                     <div>
-                        <div>Answer: <?php safer_echo($r["answer"]); ?> - -  <?php safer_echo($r["TOTAL"]); ?> time(s) picked</div>
+                        <div><b>Answer:</b> <?php safer_echo($r["answer"]); ?> - -  <?php safer_echo($r["TOTAL"]); ?> time(s) picked</div>
                     </div>
                     </div>
+                    <br>
+                    
              <?php endforeach; ?>
         </div>
     <?php else: ?>

@@ -31,8 +31,11 @@ $offset = ($page-1) * $per_page;
 
 
 $db = getDB();
-$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title LIMIT :offset, :count");
-//$stmt = $db->prepare("SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses LEFT JOIN Survey ON Responses.survey_id=Survey.id UNION (SELECT title, COUNT(Responses.survey_id) as TOTAL from Responses) Right Join Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title");
+$stmt = $db->prepare("Select distinct title, s.id, s.user_id, (select count(distinct user_id) from Responses where Responses.survey_id = s.id) as times from Survey s JOIN Responses r on s.id = r.survey_id where r.user_id = :id LIMIT :offset, :count"); 
+
+//$stmt = $db->prepare("SELECT title, Count(Responses.survey_id) as TOTAL from Responses JOIN Survey ON Responses.survey_id=Survey.id WHERE Responses.user_id=:id GROUP BY title LIMIT :offset, :count");
+
+
 $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
 $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
 $stmt->bindValue(":id", get_user_id());
@@ -56,45 +59,47 @@ if (isset($_POST["results"])) {
 <h3>Survey's Taken</h3>
 <br>
 
-<h4>Title - Times taken</h4>
+
 
 
 <?php if (count($results) > 0): ?>
                
-          <div class="results">
+         <div class="results"> 
             <?php foreach ($results as $r): ?>
                 
                     <div>
-                        <div> <?php safer_echo($r["title"]); ?>  <?php safer_echo($r["TOTAL"]); ?></div>
+                        <div> <b>Title:</b> <?php safer_echo($r["title"]); ?> </div>
+                           <div> <b>Number of times taken:</b> <?php safer_echo($r["times"]); ?>   <div> 
+                           <div> <b>Profile Link:  </b>     <a  type="button" href="profileview.php?id=<?php safer_echo($r["user_id"]); ?>">View Creator's Profile</a> </div>
+                       
+                       </div>
                     
-                    </div>
-           
-      
-            </div>
+                   	 </div>  
+                    </div>  
+          </div>  
+  <br>
+  <br>
              <?php endforeach; ?>
            
                
-            
-    
-    
     <?php else: ?>
         <p>No results</p>
            <?php endif; ?>
            
       
-         <nav aria-label="My Taken Surveys">
-            <ul class="pagination justify-content-center">
-                <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                    <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+       <nav1>
+            <ul > 
+                <li  <?php echo ($page-1) < 1?"disabled":"";?>">
+                    <a href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
                 </li>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                <li  <?php echo ($page-1) == $i?"active":"";?>"><a  href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
-                <li class="page-item <?php echo ($page+1) >= $total_pages?"disabled":"";?>">
-                    <a class="page-link" href="?page=<?php echo $page+1;?>">Next</a>
+                <li  <?php echo ($page+1) >= $total_pages?"disabled":"";?>">
+                    <a  href="?page=<?php echo $page+1;?>">Next</a>
                 </li>
-            </ul>
-        </nav>  
+        </ul> 
+        </nav1>   
         
           <form method="POST">
         <input type="submit" name="results" value="Results Page"/>

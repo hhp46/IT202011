@@ -35,16 +35,16 @@ if (isset($_POST["search"]) && !empty($query)) {
             <?php foreach ($results as $r): ?>
                 <div class="list-group-item">
                     <div>
-                        <div>Title: <?php safer_echo($r["title"]); ?></div>
+                        <div><b>Title:</b> <?php safer_echo($r["title"]); ?></div>
                     </div>
                     <div>
-                        <div>Description: <?php safer_echo($r["description"]); ?></div>
+                        <div><b>Description:</b> <?php safer_echo($r["description"]); ?></div>
                     </div>
                     <div>
-                        <div>Visibility: <?php getVisibility($r["visibility"]); ?></div>
+                        <div><b>Visibility:</b> <?php getVisibility($r["visibility"]); ?></div>
                     </div>
                     <div>
-                        <div>Owner Id: <?php safer_echo($r["user_id"]); ?></div>
+                        <div><b>Owner Id: </b> <?php safer_echo($r["user_id"]); ?></div>
                     </div>
                      
                     <div>
@@ -53,6 +53,10 @@ if (isset($_POST["search"]) && !empty($query)) {
                         <a type="button" href="adminviewsurvey.php?id=<?php safer_echo($r['id']); ?>">View</a>
                     </div>
                 </div>
+                
+                <br>
+                <br>
+                
             <?php endforeach; ?>
         </div>
     <?php else: ?>
