@@ -52,15 +52,17 @@ if($s[0] != "00000"){
                 <div class="list-group-item">
                 
                     <div>
-                        <div>Title: <?php safer_echo($r["title"]); ?></div>
+                        <div><b>Title:</b> <?php safer_echo($r["title"]); ?></div>
                     </div>
                   
                     <div>
-                        <div>Owner Id: <?php safer_echo($r["user_id"]); ?></div>
+                        <div><b>Owner Id:</b> <?php safer_echo($r["user_id"]); ?></div>
                       
                     </div>
                          <a type="button" href="create_quest.php?id=<?php safer_echo($r['id']); ?>">Add Question</a> 
                 </div>
+                <br>
+                <br>
             <?php endforeach; ?>
         </div>
     <?php else: ?>

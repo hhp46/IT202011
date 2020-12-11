@@ -19,7 +19,7 @@ if (!is_logged_in()) {
     }
 
 ?>
-<h3>List Questions</h3>
+<h3>List of Questions</h3>
 
 <div class="results">
     <?php if (count($results) > 0): ?>
@@ -28,7 +28,7 @@ if (!is_logged_in()) {
                 <div class="list-group-item">
                 
                     <div>
-                        <div>Question: <?php safer_echo($r["question"]); ?></div>
+                        <div><b>Question:</b> <?php safer_echo($r["question"]); ?></div>
                     </div>
                    
                     <div>
@@ -38,6 +38,8 @@ if (!is_logged_in()) {
                         
                     </div>
                 </div>
+                <br>
+                <br>
             <?php endforeach; ?>
         </div>
     <?php else: ?>

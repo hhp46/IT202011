@@ -14,11 +14,20 @@ if (!is_logged_in()) {
 
 
 $db = getDB();
+$stmt = $db->prepare("SELECT visibility from Users WHERE id = :id LIMIT 1");
+
+$stmt->execute([":id" => get_user_id()]);
+
+
+$visibil_result = $stmt->fetch(PDO::FETCH_ASSOC);
+$visibil = $visibil_result["visibility"];
+
+
 //save data if we submitted the form
 if (isset($_POST["saved"])) {
 
     $isValid = true;
-    $visibil = $_POST["visibility"];
+    
     
    	
    
@@ -48,6 +57,7 @@ if (isset($_POST["saved"])) {
             $newEmail = $email;
         }
     }
+    
     $newUsername = get_username();
     if (get_username() != $_POST["username"]) {
         $username = $_POST["username"];
@@ -73,15 +83,19 @@ if (isset($_POST["saved"])) {
         }
     }
     
+    //get visibility 
+   
+    
   
  	  if ($isValid) {
 		$userID = null;
 		$currentPass = null;
-		   $visibil = $_POST["visibility"];
+		 $visibil = $_POST["visibility"];
+		   
 		$stmt = $db->prepare("UPDATE Users set email = :email, visibility=:visibil ,username= :username where id = :id");
 		$r = $stmt->execute([":email" => $newEmail, ":visibil"=>$visibil, ":username" => $newUsername, ":id" => get_user_id()]);
 		if ($r) {
-		flash("Updated Email/user/Visibility");
+		flash("Updated Profile");
 			 }
 		else {
 		flash("Error updating profile");
@@ -125,12 +139,13 @@ if (isset($_POST["saved"])) {
         
  
 //fetch/select fresh data in case anything changed
-        $stmt = $db->prepare("SELECT email, username from Users WHERE id = :id LIMIT 1");
+        $stmt = $db->prepare("SELECT email, username, visibility from Users WHERE id = :id LIMIT 1");
         $stmt->execute([":id" => get_user_id()]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             $email = $result["email"];
             $username = $result["username"];
+             $visibil = $result["visibility"];
             //let's update our session too
             $_SESSION["user"]["email"] = $email;
             $_SESSION["user"]["username"] = $username;
@@ -232,26 +247,26 @@ if($s[0] != "00000"){
 
 
 <br>
-   <h3>Update Profile Below</h3>
+   <h3>Update Profile Below!</h3>
     <form method="POST">
-        <label for="email">Email</label>
+        <label for="email"><b>Email</b></label>
         <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>
-        <label for="username">Username</label>
+        <label for="username"><b>Username</b></label>
         <input type="text" maxlength="60" name="username" value="<?php safer_echo(get_username()); ?>"/>
         <!-- DO NOT PRELOAD PASSWORD-->
-        <label for="pw">Password</label>
+        <label for="pw"><b>Password</b></label>
         <input type="password" name="password"/>
-        <label for="npw">New Password</label>
+        <label for="npw"><b>New Password</b></label>
         <input type="password" name="newPassword"/>
-        <label for="cpw">Confirm Password</label>
+        <label for="cpw"><b>Confirm Password</b></label>
         <input type="password" name="confirm"/>
         
-        <label>Visibility</label>
+        <label><b>Visibility</b></label>
 	
 		
-	<select name="visibility" value="<?php echo $result["visibility"];?>">
-		<option value="0" <?php echo ($result["visibility"] == "0"?'selected="selected"':'');?>>Private</option>
-                <option value="1" <?php echo ($result["visibility"] == "1"?'selected="selected"':'');?>>Public</option>
+	<select name="visibility" value="<?php echo getVisibility ($visibil);?>">
+		<option value="1" <?php echo ($visibil == "1"?'selected="selected"':'');?>>Private</option>
+                <option value="2" <?php echo ($visibil == "2"?'selected="selected"':'');?>>Public</option>
                
                 
 	</select>
@@ -264,7 +279,7 @@ if($s[0] != "00000"){
     
     
     
-<h3>Surveys Created:</h3>
+<h3><u>Surveys Created:</u></h3>
 
 
 <div class="results">
@@ -274,7 +289,7 @@ if($s[0] != "00000"){
                 <div class="list-group-item">
                 
                     <div>
-                        <div>Title: <?php safer_echo($r["title"]); ?></div>
+                        <div><b>Title: </b> <?php safer_echo($r["title"]); ?></div>
                     </div>
                   
                    
@@ -287,7 +302,7 @@ if($s[0] != "00000"){
 </div>
 
 
-<h3>Survey's Taken</h3>
+<h3><u>Survey's Taken:</u></h3>
 
 
 <?php if (count($result) > 0): ?>
@@ -296,7 +311,7 @@ if($s[0] != "00000"){
             <?php foreach ($result as $re): ?>
                 
                     <div>
-                     <div>Title: <?php safer_echo($re["title"]); ?></div>
+                     <div><b>Title:</b> <?php safer_echo($re["title"]); ?></div>
                        
                     </div>
                   

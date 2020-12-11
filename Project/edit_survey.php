@@ -58,11 +58,11 @@ if(isset($id)){
 ?>
 <br>
 <form method="POST">
-	<label>Title</label>
+	<label><b>Title</b></label>
 	<input name="title" placeholder="Title" value="<?php echo $result["title"];?>" />
-	<label>Description</label>
+	<label><b>Description</b></label>
 	<input type="text"  name="description" value="<?php echo $result["description"];?>" />
-	<label>Category</label>
+	<label><b>Category</b></label>
 	<select name="category" value="<?php echo $result["category"];?>">
 		<option value="Address Survey" <?php echo ($result["category"] == "0"?'selected="selected"':'');?>>Address Survey</option>
                 <option value="Colllege Survey" <?php echo ($result["category"] == "1"?'selected="selected"':'');?>>Colllege Survey</option>
@@ -73,7 +73,7 @@ if(isset($id)){
                     <option value="Other Survey" <?php echo ($result["category"] == "6"?'selected="selected"':'');?>>Other Survey</option>
                 
 	</select>
-	<label>Visibility</label>
+	<label><b>Visibility</b></label>
 	<select name="visibility" value="<?php echo $result["visibility"];?>">
 		<option value="0" <?php echo ($result["visibility"] == "0"?'selected="selected"':'');?>>Draft</option>
                 <option value="1" <?php echo ($result["visibility"] == "1"?'selected="selected"':'');?>>Private</option>

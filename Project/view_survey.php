@@ -26,19 +26,19 @@ if (isset($id)) {
     }
 }
 ?>
-<h3>View Surveys</h3>
+<h3>View Survey Details Below</h3>
 <?php if (isset($result) && !empty($result)): ?>
     <div class="card">
-        <div class="card-title">
+        <div class="title">
            <b> Survey Title:  </b><?php safer_echo($result["title"]); ?>
         </div>
-        <div class="card-body">
+        <div class="card-title">
             <div>
-                <p><b>Survey Info</b></p>
-                <div>Description: <?php safer_echo($result["description"]); ?></div>
-                <div>Category: <?php safer_echo($result["category"]); ?></div>
-                <div>Current Visibility: <?php getVisibility($result["visibility"]); ?></div>
-                <div>Owned by: <?php safer_echo($result["username"]); ?></div>
+                <p><b><u>Survey Info</u></b></p>
+                <div><b>Description:</b> <?php safer_echo($result["description"]); ?></div>
+                <div><b>Category:</b> <?php safer_echo($result["category"]); ?></div>
+                <div><b>Current Visibility:</b> <?php getVisibility($result["visibility"]); ?></div>
+                <div><b>Owned by:</b> <?php safer_echo($result["username"]); ?></div>
             </div>
         </div>
     </div>

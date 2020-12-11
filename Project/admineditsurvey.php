@@ -56,11 +56,11 @@ if(isset($id)){
 ?>
 <br>
 <form method="POST">
-	<label>Title</label>
+	<label><b>Title</b></label>
 	<input name="title" placeholder="Title" value="<?php echo $result["title"];?>" />
-	<label>Description</label>
+	<label><b>Description</b></label>
 	<input type="text"  name="description" value="<?php echo $result["description"];?>" />
-	<label>Visibility</label>
+	<label><b>Visibility</b></label>
 	<select name="visibility" value="<?php echo $result["visibility"];?>">
 		<option value="0" <?php echo ($result["visibility"] == "0"?'selected="selected"':'');?>>Draft</option>
                 <option value="1" <?php echo ($result["visibility"] == "1"?'selected="selected"':'');?>>Private</option>

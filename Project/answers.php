@@ -16,7 +16,7 @@ $result = [];
 ?>
     <h3>Create Answers</h3>
     <form method="POST">
-        <label>Answer</label>
+        <label><b>Answer</b></label>
         <input name="answer" placeholder="Answer"/>
           
 	
