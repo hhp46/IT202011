@@ -33,7 +33,7 @@ if (isset($_POST["results"])) {
             <?php foreach ($results as $s): ?>
                 <div >
                     <div class="row">
-                        <div ><?php safer_echo($s["title"]); ?></div>
+                        <div > <b><?php safer_echo($s["title"]); ?> </b> </div>
                          
                         <div>
                             <a type="button" href="<?php echo getURL("survey.php?id=" . $s["id"]); ?>">   Take Survey      </a>
